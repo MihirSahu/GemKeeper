@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using CommandLine;
 using GemKeeper;
 
@@ -44,16 +43,15 @@ class Program
         Directory.CreateDirectory(options.OutputPath);
       }
 
-      var converter = new ReverseMarkdown.Converter();
       foreach (var activity in activities) {
         RepositoryResponse activityDateTime = activity.GetParsedDateTime();
         if (!activityDateTime.isSuccessful) throw new Exception($"The date/time for the chat with prompt {activity.title} could not be parsed successfully.");
         string outputFilePath = Path.Combine(options.OutputPath, ((DateTime)activityDateTime.data).ToString("yyyy-MM-dd-ss") + ".md");
-        string header = $"---\nTime: \"{activity.time}\"\n---";
-        string prompt = $"## You\n> {activity.title}\n";
-        string chatMarkdown = converter.Convert(activity.safeHtmlItem.FirstOrDefault()?.html ?? "");
 
-        File.WriteAllText(outputFilePath, header + "\n" + prompt + "## Gemini\n" + chatMarkdown);
+        RepositoryResponse formattedOutput = activity.GetFormattedOutput();
+        if (!formattedOutput.isSuccessful) throw new Exception(formattedOutput.message);
+
+        File.WriteAllText(outputFilePath, (string)formattedOutput.data);
         if (!Validate.ValidateFileExists(outputFilePath).isSuccessful) throw new Exception("Files cannot be created in the specified output folder.");
       }
     }
