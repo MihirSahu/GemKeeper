@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "program": "${workspaceFolder}/GemKeeper/bin/Debug/net9.0/GemKeeper.dll",
-      "args": ["-f", "takeout.zip", "--output", "output/"],
+      "args": ["-f", "/Users/mihirsahu/Downloads/takeout-20250504T042039Z-001.zip", "--output", "/Users/mihirsahu/Downloads/output/"],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
       "stopAtEntry": false,
