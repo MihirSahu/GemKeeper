@@ -1,5 +1,5 @@
 # GemKeeper
-A CLI tool to export Gemini Chats to markdown for archival purposes. Inspired by [ChatKeeper]()
+A CLI tool to export Gemini Chats to markdown for archival purposes. Inspired by [ChatKeeper](https://martiansoftware.com/chatkeeper/).
 ## Usage
 ```
 mihirsahu@Mihirs-MacBook-Pro-3 GemKeeper % ./GemKeeper 
