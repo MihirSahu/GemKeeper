@@ -1,5 +1,5 @@
 # GemKeeper
-A CLI tool to export Gemini Chats to markdown for archival purposes.
+A CLI tool to export Gemini Chats to markdown for archival purposes. Inspired by [ChatKeeper]()
 ## Usage
 ```
 mihirsahu@Mihirs-MacBook-Pro-3 GemKeeper % ./GemKeeper 
@@ -41,3 +41,4 @@ output/
 ## TODO
 - Implement verbose functionality
 - Add folders aggregated by year/month for organizational purposes
+- Create binaries for releases
