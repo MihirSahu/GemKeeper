@@ -46,7 +46,9 @@ class Program
 
       var converter = new ReverseMarkdown.Converter();
       foreach (var activity in activities) {
-        string outputFilePath = Path.Combine(options.OutputPath, activity.time + ".md");
+        RepositoryResponse activityDateTime = activity.GetParsedDateTime();
+        if (!activityDateTime.isSuccessful) throw new Exception($"The date/time for the chat with prompt {activity.title} could not be parsed successfully.");
+        string outputFilePath = Path.Combine(options.OutputPath, ((DateTime)activityDateTime.data).ToString("yyyy-MM-dd-ss") + ".md");
         string header = $"---\nTime: \"{activity.time}\"\n---";
         string prompt = $"## You\n> {activity.title}\n";
         string chatMarkdown = converter.Convert(activity.safeHtmlItem.FirstOrDefault()?.html ?? "");
