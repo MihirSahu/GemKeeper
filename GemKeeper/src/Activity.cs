@@ -35,7 +35,7 @@ class Activity
 
       return new RepositoryResponse(isSuccessful: true, data: header + "\n" + prompt + "## Gemini\n" + chatMarkdown, message: "Activity data formatted successfully.");
     }
-    catch (Exception error) {
+    catch {
       return new RepositoryResponse(isSuccessful: false, message: $"The data for the chat with prompt {this.title} could not be formatted successfully.");
     }
   }
