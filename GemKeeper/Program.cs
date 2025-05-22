@@ -60,8 +60,6 @@ class Program
 
         try
         {
-          string outputFilePath = Path.Combine(options.OutputPath, formattedDateTime + ".md");
-
           RepositoryResponse formattedOutputResponse = activity.GetFormattedOutput();
           if (!formattedOutputResponse.isSuccessful) throw new Exception(formattedOutputResponse.message);
           formattedOutput += (string)formattedOutputResponse.data;
@@ -74,6 +72,21 @@ class Program
             {
               continue;
             }
+          }
+
+          string outputFilePath = Path.Combine(options.OutputPath, formattedDateTime + ".md");
+
+          if (options.Arrange)
+          {
+            string yearFolder = Path.Combine(options.OutputPath, ((DateTimeOffset)activityDateTime.data).ToString("yyyy"));
+            RepositoryResponse createYearFolder = Create.CreateDirectory(yearFolder);
+            if (!createYearFolder.isSuccessful && createYearFolder?.data != null) throw new Exception("Year folder could not be created.");
+
+            string monthFolder = Path.Combine(options.OutputPath, yearFolder, ((DateTimeOffset)activityDateTime.data).ToString("MM"));
+            RepositoryResponse createMonthFolder = Create.CreateDirectory(monthFolder);
+            if (!createMonthFolder.isSuccessful && createMonthFolder?.data != null) throw new Exception("Month folder could not be created.");
+
+            outputFilePath = Path.Combine(options.OutputPath, monthFolder, formattedDateTime + ".md");
           }
 
           File.WriteAllText(outputFilePath, formattedOutput);

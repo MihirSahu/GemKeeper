@@ -21,6 +21,9 @@ namespace GemKeeper
     [Option('o', "output", Required = true, HelpText = "Specify the output folder.")]
     public string? OutputPath { get; set; }
 
+    [Option('a', "arrange", Required = false, HelpText = "Organize files by year and month.")]
+    public bool Arrange { get; set; }
+
     [Option('v', "verbose", Required = false, HelpText = "Print additional logs.")]
     public bool Verbose { get; set; }
 
