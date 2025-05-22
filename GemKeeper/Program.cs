@@ -35,6 +35,7 @@ class Program
 
       string myActivityJsonString = File.ReadAllText(activityFilePath);
       List<Activity>? activities = JsonSerializer.Deserialize<List<Activity>>(myActivityJsonString) ?? throw new Exception("MyActivity.json could not be deserialized.");
+      activities = activities.OrderBy(activity => activity.GetParsedDateTime().data).ToList();
       Logger.Log("MyActivity.json data deserialized successfully.", options.Verbose);
 
       foreach (var activity in activities) {
@@ -48,25 +49,45 @@ class Program
         Logger.Log("", options.Verbose);
       }
 
-      foreach (var activity in activities) {
+      const int GAP_MINUTES = 10;
+      int index = 0;
+      string formattedOutput = "";
+
+      foreach (var activity in activities)
+      {
         RepositoryResponse activityDateTime = activity.GetParsedDateTime();
-        string formattedDateTime = ((DateTime)activityDateTime.data).ToString("yyyy-MM-dd-ss");
+        string formattedDateTime = ((DateTimeOffset)activityDateTime.data).ToString("yyyy-MM-dd-ss");
 
         try
         {
           string outputFilePath = Path.Combine(options.OutputPath, formattedDateTime + ".md");
 
-          RepositoryResponse formattedOutput = activity.GetFormattedOutput();
-          if (!formattedOutput.isSuccessful) throw new Exception(formattedOutput.message);
+          RepositoryResponse formattedOutputResponse = activity.GetFormattedOutput();
+          if (!formattedOutputResponse.isSuccessful) throw new Exception(formattedOutputResponse.message);
+          formattedOutput += (string)formattedOutputResponse.data;
 
-          File.WriteAllText(outputFilePath, (string)formattedOutput.data);
+          bool isLast = index == activities.Count - 1;
+          if (!isLast)
+          {
+            bool gapIsSmall = ((DateTimeOffset)activities[index + 1].GetParsedDateTime().data - (DateTimeOffset)activityDateTime.data).TotalMinutes <= GAP_MINUTES;
+            if (gapIsSmall)
+            {
+              continue;
+            }
+          }
+
+          File.WriteAllText(outputFilePath, formattedOutput);
           if (!Validate.ValidateFileExists(outputFilePath).isSuccessful) throw new Exception("Files cannot be created in the specified output folder.");
+          formattedOutput = "";
           Logger.Log(formattedDateTime + " ✓", options.Verbose);
         }
         catch (Exception error)
         {
           Logger.Log(formattedDateTime + " x", options.Verbose);
           Logger.Log(error.Message, options.Verbose);
+        }
+        finally {
+          index++;
         }
       }
 
