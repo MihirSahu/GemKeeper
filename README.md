@@ -18,27 +18,36 @@ Export Gemini chat history to markdown:
 ```
 ## Example
 ```
-mihirsahu@Mihirs-MacBook-Pro-3 GemKeeper % ./bin/Debug/net9.0/GemKeeper -f /Users/mihirsahu/Downloads/takeout-20250504T042039Z-001.zip -o /Users/mihirsahu/Downloads/output/
+mihirsahu@Mihirs-MacBook-Pro-3 net9.0 % ./GemKeeper -f /Users/mihirsahu/Downloads/takeout-20250521T194916Z-1-001.zip -o /Users/mihirsahu/Downloads/output/ -a -v
 ```
 ```
-output/
-├── 2025-04-30-31.md
-├── 2025-04-30-37.md
-├── 2025-04-30-41.md
-├── 2025-04-30-47.md
-├── 2025-04-30-51.md
-├── 2025-04-30-53.md
-├── 2025-04-30-54.md
-├── 2025-04-30-59.md
-├── 2025-05-02-18.md
-├── 2025-05-02-19.md
-├── 2025-05-02-20.md
-├── 2025-05-02-28.md
-├── 2025-05-02-44.md
-├── 2025-05-02-57.md
-└── 2025-05-03-45.md
+Google Takeout file path: /Users/mihirsahu/Downloads/takeout-20250521T194916Z-1-001.zip
+Output path: /Users/mihirsahu/Downloads/output/
+
+The extraction process was successful.
+MyActivity.json data deserialized successfully.
+Prompts processed successfully.
+
+2025-04-28-32 ✓
+2025-04-28-08 ✓
+2025-04-30-28 ✓
+2025-05-01-47 ✓
+2025-05-01-54 ✓
+2025-05-02-18 ✓
+2025-05-02-44 ✓
+2025-05-03-28 ✓
+2025-05-04-45 ✓
+2025-05-04-47 ✓
+2025-05-07-10 ✓
+2025-05-08-14 ✓
+2025-05-10-52 ✓
+2025-05-10-56 ✓
+2025-05-17-10 ✓
+2025-05-18-34 ✓
+2025-05-19-05 ✓
+2025-05-19-07 ✓
+2025-05-19-31 ✓
+2025-05-19-51 ✓
+73 activities processed.
+Chat history exported to /Users/mihirsahu/Downloads/output/.
 ```
-## TODO
-- Implement verbose functionality
-- Add folders aggregated by year/month for organizational purposes
-- Create binaries for releases
