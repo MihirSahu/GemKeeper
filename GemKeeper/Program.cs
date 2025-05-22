@@ -22,6 +22,7 @@ class Program
     {
       Logger.Log($"Google Takeout file path: {options.FilePath}", options.Verbose);
       Logger.Log($"Output path: {options.OutputPath}", options.Verbose);
+      Logger.Log("", options.Verbose);
 
       RepositoryResponse extractFileResponse = Extract.ExtractFile(options.FilePath);
       if (!extractFileResponse.isSuccessful) throw new Exception(extractFileResponse.message);
@@ -31,7 +32,6 @@ class Program
       string? activityFilePath = Path.Combine(directoryPath, "Takeout", "My Activity", "Gemini Apps", "MyActivity.json");
       RepositoryResponse validateActivityPathResponse = Validate.ValidateFileExists(activityFilePath);
       if (!validateActivityPathResponse.isSuccessful) throw new Exception(validateActivityPathResponse.message);
-      Logger.Log(validateActivityPathResponse.message, options.Verbose);
 
       string myActivityJsonString = File.ReadAllText(activityFilePath);
       List<Activity>? activities = JsonSerializer.Deserialize<List<Activity>>(myActivityJsonString) ?? throw new Exception("MyActivity.json could not be deserialized.");
@@ -42,11 +42,11 @@ class Program
         activity.title = activity.title.Substring(activity.title.IndexOf(" ") + 1);
       }
       Logger.Log("Prompts processed successfully.", options.Verbose);
+      Logger.Log("", options.Verbose);
 
       RepositoryResponse validateOutputDirectory = Validate.ValidateDirectoryExists(options.OutputPath);
       if (!validateOutputDirectory.isSuccessful) {
         Directory.CreateDirectory(options.OutputPath);
-        Logger.Log("", options.Verbose);
       }
 
       const int GAP_MINUTES = 10;
