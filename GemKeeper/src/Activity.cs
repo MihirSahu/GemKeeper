@@ -16,7 +16,7 @@ class Activity
   {
     try
     {
-      return new RepositoryResponse(isSuccessful: true, data: DateTime.Parse(time), message: "Datetime parsed successfully.");
+      return new RepositoryResponse(isSuccessful: true, data: DateTimeOffset.Parse(time), message: "Datetime parsed successfully.");
     }
     catch (Exception error)
     {
